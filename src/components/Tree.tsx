@@ -1,19 +1,29 @@
 'use client';
+import { MouseEvent } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
-import { Group, Tree, Flex } from '@mantine/core';
-
-import { TreeNodeData, NavLink } from '@mantine/core';
+import { Group, Tree, Flex, TreeNodeData, NavLink } from '@mantine/core';
 import { IconFileText } from '@tabler/icons-react';
 
 import type { RenderTreeNodePayload } from '@mantine/core';
 
-import NoteNavLink from '@/components/NoteNavLink';
+type Node = RenderTreeNodePayload['node'];
 
 type TreeProps = {
-    data: TreeNodeData[]
+  data: TreeNodeData[];
+  onClick?: (node: Node) => void;
 };
 
 export default function TreeView({ data }: TreeProps) {
+
+  function ignoreEvent(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+  }
+
+  function onNodeClick(event: MouseEvent<HTMLAnchorElement>, node: Node) {
+    ignoreEvent(event);
+    console.log({ node });
+  }
+
   return (
     <Tree
       data={data}
@@ -32,6 +42,7 @@ export default function TreeView({ data }: TreeProps) {
               />
               <NavLink
                 href="#required-for-focus"
+                onClick={ignoreEvent}
                 label={node.label}/>
             </Flex>
           )}
@@ -39,6 +50,7 @@ export default function TreeView({ data }: TreeProps) {
             <NavLink
               href="#required-for-focus"
               label={node.label}
+              onClick={(e) => onNodeClick(e, node)}
               leftSection={<IconFileText size="1rem" stroke={1.5} />}
             />
           )}

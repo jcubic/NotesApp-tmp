@@ -11,7 +11,6 @@ export default function Home() {
           <span>SNApp</span>
         </header>
         <aside className={styles.notes}>
-
         </aside>
         <div className={styles.editor}>
           <textarea></textarea>

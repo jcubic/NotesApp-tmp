@@ -69,6 +69,7 @@ export default function TreeView({ data }: TreeProps) {
             {!hasChildren && (
               <NavLink
                 href="#required-for-focus"
+                h={28}
                 label={node.label}
                 onClick={(event) => { ignoreEvent(event); tree.select(node.value); }}
                 leftSection={<IconFileText size="1rem" stroke={1.5} />}

@@ -5,6 +5,7 @@ import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 
 import "./globals.css";
 import { theme } from '../theme';
+import Favicon from '@/components/Favicon';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,11 +23,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <head>
         <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
+        <Favicon />
       </head>
       <body className={inter.className}>
         <MantineProvider theme={theme} forceColorScheme="dark">{children}</MantineProvider>

@@ -1,19 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-import Tree from '@/components/Tree';
-
-const data = [
-  {
-    value: 'src',
-    label: 'src',
-    children: [
-      { value: 'src/components', label: 'components' },
-      { value: 'src/hooks', label: 'hooks' },
-    ],
-  },
-  { value: 'package.json', label: 'package.json' },
-];
+import NotesPanel from '@/components/NotesPanel';
 
 export default function Home() {
   return (
@@ -25,13 +13,12 @@ export default function Home() {
           <span>SNApp</span>
         </header>
         <aside className={styles.notes}>
-          <Tree data={data}/>
+          <NotesPanel />
         </aside>
         <div className={styles.editor}>
           <textarea></textarea>
         </div>
         <aside className={styles.filter}>
-
         </aside>
         <footer className={styles.footer}>
           <p>Copyright (c) 2024 Jakub T. Jankiewicz</p>

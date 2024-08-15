@@ -29,6 +29,7 @@
 
 .notes {
     grid-area: menu;
+    padding: 10px;
 }
 
 .filter, .notes, .header, .footer {

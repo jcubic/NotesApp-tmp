@@ -2,11 +2,15 @@
 import { MouseEvent } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
 import { Group, Tree, Flex, TreeNodeData, NavLink } from '@mantine/core';
-import { IconFileText } from '@tabler/icons-react';
+import { IconFileText, IconFilePlus } from '@tabler/icons-react';
 
 import type { RenderTreeNodePayload } from '@mantine/core';
 
+import ToolbarIcon from './ToolbarIcon';
+
+
 type Node = RenderTreeNodePayload['node'];
+type AnchorMouseEvent = MouseEvent<HTMLAnchorElement>;
 
 type TreeProps = {
   data: TreeNodeData[];
@@ -15,13 +19,17 @@ type TreeProps = {
 
 export default function TreeView({ data }: TreeProps) {
 
-  function ignoreEvent(event: MouseEvent<HTMLAnchorElement>) {
+  function ignoreEvent(event: AnchorMouseEvent) {
     event.preventDefault();
   }
 
-  function onNodeClick(event: MouseEvent<HTMLAnchorElement>, node: Node) {
+  function onNodeClick(event: AnchorMouseEvent, node: Node) {
     ignoreEvent(event);
     console.log({ node });
+  }
+
+  function newNote() {
+    console.log('add Note');
   }
 
   return (
@@ -44,6 +52,7 @@ export default function TreeView({ data }: TreeProps) {
                 href="#required-for-focus"
                 onClick={ignoreEvent}
                 label={node.label}/>
+              <ToolbarIcon icon={<IconFilePlus size={14}/>} onClick={newNote}/>
             </Flex>
           )}
           {!hasChildren && (

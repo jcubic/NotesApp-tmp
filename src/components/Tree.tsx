@@ -23,11 +23,6 @@ export default function TreeView({ data }: TreeProps) {
     event.preventDefault();
   }
 
-  function onNodeClick(event: AnchorMouseEvent, node: Node) {
-    ignoreEvent(event);
-    console.log({ node });
-  }
-
   function newNote() {
     console.log('add Note');
   }
@@ -36,7 +31,8 @@ export default function TreeView({ data }: TreeProps) {
     <Tree
       data={data}
       levelOffset={23}
-      renderNode={({ node, expanded, hasChildren, elementProps }: RenderTreeNodePayload) => (
+      expandOnClick={false}
+      renderNode={({ node, tree, expanded, hasChildren, elementProps, selected }: RenderTreeNodePayload) => (
         <Group gap={5} {...elementProps}>
           {hasChildren && (
             <Flex
@@ -50,16 +46,20 @@ export default function TreeView({ data }: TreeProps) {
               />
               <NavLink
                 href="#required-for-focus"
-                onClick={ignoreEvent}
+                active={selected}
+                onClick={(event) => { ignoreEvent(event); tree.toggleExpanded(node.value); }}
                 label={node.label}/>
-              <ToolbarIcon icon={<IconFilePlus size={14}/>} onClick={newNote}/>
+              <ToolbarIcon icon={<IconFilePlus size={14}/>} onClick={() => {
+                newNote();
+                console.log(tree.hoveredNode);
+              }}/>
             </Flex>
           )}
           {!hasChildren && (
             <NavLink
               href="#required-for-focus"
               label={node.label}
-              onClick={(e) => onNodeClick(e, node)}
+              onClick={(event) => { ignoreEvent(event); tree.select(node.value); }}
               leftSection={<IconFileText size="1rem" stroke={1.5} />}
             />
           )}

@@ -7,22 +7,29 @@ import type { RenderTreeNodePayload } from '@mantine/core';
 
 import ToolbarIcon from './ToolbarIcon';
 
-type Node = RenderTreeNodePayload['node'];
+export type Node = RenderTreeNodePayload['node'];
+export type TreeData = TreeNodeData[];
+
 type AnchorMouseEvent = MouseEvent<HTMLAnchorElement>;
 
 type TreeProps = {
   data: TreeNodeData[];
-  onClick?: (node: Node) => void;
+  onOpenNote?: (node: Node) => void;
+  onNewNote?: (parent: Node) => void;
+  renameNode?: (node: Node, name: string) => void;
 };
 
-export default function TreeView({ data }: TreeProps) {
+const noop = () => {};
+
+export default function TreeView({ data, onOpenNote = noop, onNewNote = noop }: TreeProps) {
 
   function ignoreEvent(event: AnchorMouseEvent) {
     event.preventDefault();
   }
 
-  function newNote() {
-    console.log('add Note');
+  function openNote(event: AnchorMouseEvent, node: Node) {
+    ignoreEvent(event);
+    onOpenNote(node);
   }
 
   return (
@@ -30,7 +37,7 @@ export default function TreeView({ data }: TreeProps) {
       data={data}
       levelOffset={23}
       expandOnClick={false}
-      renderNode={({ node, tree, expanded, hasChildren, elementProps, selected }: RenderTreeNodePayload) => {
+      renderNode={({ node, tree, expanded, hasChildren, elementProps }: RenderTreeNodePayload) => {
         function toggle(event: AnchorMouseEvent) {
           ignoreEvent(event);
           tree.toggleExpanded(node.value);
@@ -54,15 +61,11 @@ export default function TreeView({ data }: TreeProps) {
                   gap={5}>
                   <NavLink
                     href="#required-for-focus"
-                    active={selected}
                     h={28}
                     onClick={toggle}
                     label={node.label}
                   />
-                  <ToolbarIcon icon={<IconFilePlus size={14}/>} onClick={() => {
-                    newNote();
-                    console.log(tree.hoveredNode);
-                  }}/>
+                  <ToolbarIcon icon={<IconFilePlus size={14}/>} onClick={() => onNewNote(node)}/>
                 </Flex>
               </Flex>
             )}
@@ -71,7 +74,7 @@ export default function TreeView({ data }: TreeProps) {
                 href="#required-for-focus"
                 h={28}
                 label={node.label}
-                onClick={(event) => { ignoreEvent(event); tree.select(node.value); }}
+                onClick={(event) => openNote(event, node)}
                 leftSection={<IconFileText size="1rem" stroke={1.5} />}
               />
             )}

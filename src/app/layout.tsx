@@ -26,7 +26,11 @@ export default function RootLayout({
         <Favicon />
       </head>
       <body className={inter.className}>
-        <MantineProvider theme={theme} forceColorScheme="dark">{children}</MantineProvider>
+        <MantineProvider
+            theme={theme}
+            forceColorScheme="dark">
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );

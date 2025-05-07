@@ -4,6 +4,7 @@ import { IconFilePlus, IconFolderPlus } from '@tabler/icons-react';
 import { produce, original, Draft } from 'immer';
 
 import Tree, { Node, TreeData } from './Tree';
+import { useStore } from '@/store';
 import ToolbarIcon from './ToolbarIcon';
 import styles from './NotesPanel.module.css';
 
@@ -58,6 +59,9 @@ function newNode(nodes: TreeData, parent: Node, label: string): boolean {
 
 export default function NotesPanel() {
   const [tree, setTree] = useState<TreeData>(data);
+  const { loadNote } = useStore();
+
+  // TODO: add useCallback
 
   function newNote(parent: Node) {
     setTree(produce((draft: Draft<TreeData>) => {
@@ -74,7 +78,7 @@ export default function NotesPanel() {
         </ul>
       </nav>
       <div className={styles.tree}>
-        <Tree data={tree} onNewNote={newNote}/>
+        <Tree data={tree} onNewNote={newNote} onOpenNote={loadNote}/>
       </div>
     </div>
   );

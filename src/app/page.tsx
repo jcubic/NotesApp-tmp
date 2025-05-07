@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 
 import NotesPanel from '@/components/NotesPanel';
+import Note from '@/components/Note';
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
         <NotesPanel />
       </aside>
       <div className={styles.editor}>
-        <textarea></textarea>
+        <Note />
       </div>
       <aside className={styles.filter}>
       </aside>
